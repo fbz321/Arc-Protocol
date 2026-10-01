@@ -1,0 +1,8 @@
+P队总容量	14312				
+	Bulwark	Vanguard	Marksman	Weaver	Conductor		
+已写入点	4000	3000	3000	3000	1312		
+总写入	=SUM(B3:F3)				
+余量(负=超容)	=B1-B4				
+过拟合判定	=IF(MAX(B3:F3)/B1>Params!$B$10,"认知固化:+20%本维/-15%被克","正常")				
+纯特化判定	=IF(MAX(B3:F3)/B1>=Params!$B$11,"纯特化:"&INDEX({"Bulwark","Vanguard","Marksman","Weaver","Conductor"},MATCH(MAX(B3:F3),B3:F3,0)),"杂交形态")				
+覆盖度判定	=IF(MIN(B3:F3)/B1>=Params!$B$12,"Boss闸通过","Boss闸未达:缺"&INDEX({"Bulwark","Vanguard","Marksman","Weaver","Conductor"},MATCH(MIN(B3:F3),B3:F3,0)))				

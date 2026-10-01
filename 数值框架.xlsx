@@ -1,0 +1,13 @@
+g_P	1.15	容量增速/关
+g_C	1.10	单点日志成本增速/关
+P0	100	d1容量
+C0	2	d1单点日志成本
+L1	2400	tier1产率(日志/小时)
+jump	2	tier跳变倍数
+tier_len	5	每tier关数
+offline_cap	8	离线封顶小时
+gift	400	新手礼包日志
+fuse	0.5	过拟合阈值
+pure	0.6	纯特化判定线
+boss_cov	0.12	Boss覆盖度要求
+
