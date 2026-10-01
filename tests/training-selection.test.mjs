@@ -12,6 +12,7 @@ const checks = [
   ['binds the apply action', /querySelectorAll\(\s*['"]\[data-apply-training\]['"]\s*\)/.test(html) && /applyTrainingResult\(this\.getAttribute\(['"]data-apply-training['"]\)\)/.test(html)],
   ['marks the applied result separately from focus', /state\.activeTrainingId\s*=\s*id/.test(html) && /state\.focusedTrainingId\s*=\s*id/.test(html)],
   ['applies saved configuration without charging again', /state\.vector\s*=\s*Object\.assign\(\{\},\s*result\.vector\)/.test(html) && /function\s+applyTrainingResult[\s\S]*?renderAll\(\)[\s\S]*?startBattle\(\)/.test(html)],
+  ['defines focusTrainingResult only once', (html.match(/function\s+focusTrainingResult\s*\(/g) || []).length === 1],
   ['does not persist training results', !/localStorage|sessionStorage|indexedDB/.test(html)]
 ];
 
