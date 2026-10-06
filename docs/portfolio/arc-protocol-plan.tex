@@ -1,6 +1,7 @@
 \documentclass[UTF8,10pt,a4paper,fontset=fandol]{ctexart}
 \usepackage[margin=18mm,headheight=14pt]{geometry}
-\usepackage{amsmath,booktabs,tabularx,array,enumitem,xcolor,fancyhdr,hyperref}
+\usepackage{amsmath,booktabs,tabularx,array,enumitem,xcolor,fancyhdr,graphicx,hyperref}
+\graphicspath{{docs/portfolio/images/}{images/}}
 \definecolor{accent}{HTML}{126B63}
 \definecolor{ink}{HTML}{243139}
 \hypersetup{colorlinks=true,urlcolor=accent,linkcolor=accent,pdftitle={魔导协议：放置数值卡牌简短策划案},pdfauthor={仓库账号 fbz321}}
@@ -140,4 +141,38 @@ $d>1$ 时，新增容量成本逐级增长约 $1.15\times1.10=1.265$；产率每
 在 Release 页面下载 \texttt{Arc-Protocol-v0.1.0.zip}，解压后用浏览器打开 \texttt{index.html}。不需依赖安装或 API Key；\textbf{这是下载试玩入口，不是在线托管站点}。建议演示“战斗观察—训练预览—生成候选—仓库应用—回看战报”，突出生成与应用的区别。
 
 \note{本地配套文件：\texttt{vibe-coding-showcase.md}，含可提交简介、分工说明与约两分钟演示脚本。原型刷新或关闭页面会重置进度；蓝图导出不等于存档。}
+
+\newpage
+\section*{附录：三张游戏演示图}
+\note{以下为现有 Web 原型的真实浏览器截图，截取于 2026年10月6日；并非概念效果图。采用竖屏视口，训练与仓库画面滚动至关键操作区。}
+
+\vspace{6pt}
+\noindent
+\begin{minipage}[t]{0.315\linewidth}
+\centering
+\textbf{01 · 自动战斗}\\[6pt]
+\includegraphics[width=\linewidth]{01-combat.png}\\[5pt]
+\raggedright\small
+三人协议链路与 Boss 自动演算，显示生命、伤害特效与战报入口。
+\end{minipage}\hfill
+\begin{minipage}[t]{0.315\linewidth}
+\centering
+\textbf{02 · 训练预览}\\[6pt]
+\includegraphics[width=\linewidth]{02-training.png}\\[5pt]
+\raggedright\small
+三路日志配比与核心指令；执行前预览写入点、日志及算力消耗。
+\end{minipage}\hfill
+\begin{minipage}[t]{0.315\linewidth}
+\centering
+\textbf{03 · 仓库应用}\\[6pt]
+\includegraphics[width=\linewidth]{03-repository.png}\\[5pt]
+\raggedright\small
+训练生成候选后手动应用；截图中该结果已标记为“当前应用”。
+\end{minipage}
+
+\vspace{10pt}
+\textbf{演示顺序：}观察自动战斗 $\rightarrow$ 确认训练收益 $\rightarrow$ 生成候选 $\rightarrow$ 在仓库手动应用。第二张处于执行前预览，第三张为执行并应用后的状态；资源数值随游戏操作与时间变化。
+
+\note{第一张视口为 430$\times$932，后两张为 430$\times$1100 CSS 像素，均以 2 倍像素密度截取。高清原图位于配套 \texttt{images/} 目录；作品说明末尾亦附有三张图。游戏中的模型名称与训练术语仅为数值玩法设定，不代表真实 AI 训练。}
+
 \end{document}
