@@ -1,0 +1,143 @@
+\documentclass[UTF8,10pt,a4paper,fontset=fandol]{ctexart}
+\usepackage[margin=18mm,headheight=14pt]{geometry}
+\usepackage{amsmath,booktabs,tabularx,array,enumitem,xcolor,fancyhdr,hyperref}
+\definecolor{accent}{HTML}{126B63}
+\definecolor{ink}{HTML}{243139}
+\hypersetup{colorlinks=true,urlcolor=accent,linkcolor=accent,pdftitle={魔导协议：放置数值卡牌简短策划案},pdfauthor={仓库账号 fbz321}}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small\color{accent}魔导协议 / ARC PROTOCOL}
+\fancyhead[R]{\small 个人练习 · 简短策划案}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\ctexset{section={format=\large\bfseries\color{accent},beforeskip=9pt,afterskip=5pt},subsection={format=\normalsize\bfseries,beforeskip=6pt,afterskip=3pt}}
+\setlength{\parindent}{0pt}\setlength{\parskip}{4pt}
+\setlist[itemize]{leftmargin=1.4em,itemsep=1pt,topsep=2pt}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=1pt,topsep=2pt}
+\renewcommand{\arraystretch}{1.13}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\note}[1]{{\small\color{ink}#1}}
+\begin{document}
+\begin{center}
+{\LARGE\bfseries\color{ink}《魔导协议》}\\[4pt]
+{\large 放置数值卡牌 · 简短策划案}\\[5pt]
+\small 仓库账号：fbz321 \quad 2026年10月6日 \quad 原型参考：v0.1.0 预览版
+\end{center}
+\note{材料用途：个人练习／课程作业展示。本文为基于现有 Web 原型整理的设计提案；成长公式、节奏与扩展规则属于待验证方案，不等于全部已实现。开发及本材料整理包含 AI 辅助。}
+
+\section{定位：把“训练—评估—迭代”变成养成决策}
+\begin{tabularx}{\linewidth}{@{}lY@{}}\toprule
+类型与载体 & 放置收益 + 卡牌养成 + 自动战斗；竖屏 Web，面向碎片化体验。\\
+核心体验 & 不只提升总数值，还要在有限容量下调整配方，观察战斗并解释失败。\\
+世界观 & 玩家是协议师，以战斗日志训练晶卡魔导体，再用指令组织其行为。\\
+单次目标 & 规划一次在线操作约 3--5 分钟；离线收益最多累计 8 小时。\\\bottomrule
+\end{tabularx}
+\note{“训练”是游戏内的资源与数值模拟，不执行真实模型训练；现有原型无存档，不能跨会话结算离线收益。}
+
+\section{核心循环与卡牌结构}
+\textbf{收集日志 $\rightarrow$ 调整配比 $\rightarrow$ 生成候选 $\rightarrow$ 手动应用 $\rightarrow$ 自动战斗 $\rightarrow$ 失败评估 $\rightarrow$ 再训练。}
+
+完整方案中，每张卡拥有独立容量、五维能力和核心指令；长期成长依靠扩充容量，短期策略依靠分配已有容量。同一基模可走不同职能，暂不靠付费稀有度扩大容量。现有原型用\textbf{三人共享向量与固定基模展示}验证流程，尚无完整卡牌收集、独立养成及自由编队。
+
+\begin{tabularx}{\linewidth}{@{}lYl@{}}\toprule
+维度 & 职能方向 & 原型状态\\\midrule
+Bulwark／壁垒 & 承伤、护盾，保障后排存活 & 可分配日志\\
+Weaver／源织 & 输出与控制，解决敌方威胁 & 可分配日志\\
+Conductor／谐振 & 治疗与协同，提升持续作战能力 & 可分配日志\\
+Vanguard／锋线 & 持续近战，偏稳定输出 & 扩展方向\\
+Marksman／导引 & 单体爆发，偏重点目标 & 扩展方向\\\bottomrule
+\end{tabularx}
+
+\textbf{两条决策轴：}配比决定“能力投向哪里”；破阵／护卫／共鸣决定“如何运用能力”。训练生成候选后必须手动应用，避免试验直接覆盖当前方案；训练页先显示资源成本与预计写入，降低误操作。
+
+\subsection{一个可解释的配方选择}
+设计示例（非实测）：同总量、同深度下，配方 A 为壁垒／源织／谐振 $20/60/20$。若前排过早倒下，报告提示承伤不足，可试配方 B：$40/35/25$ 并使用护卫。比较存活时间、有效输出与通关结果，而不是简单判断“输出维度越高越好”。
+
+\section{放置与竖屏操作目标}
+放置主要提供日志，在线主要完成配方决策；不把高频点击作为收益来源。竖屏顶部固定关键资源，中部按\textbf{敌方—行动链路—我方}排列，底部保留作战／仓库／训练／任务四栏。战报、引导和高阶参数折叠；训练按“配置—配比—预览—执行”排序，候选在仓库确认应用。
+
+\newpage
+\section{数值骨架与可复算节奏}
+以下参数沿用仓库数值资料并重新计算，为\textbf{完整方案待验证参数}。其中容量与单点成本已有原型表达；分档产率、独立卡牌和完整关卡推进尚未落地。协议深度记作 $d\ge1$，能力值记作 $v_i$。
+\begin{align*}
+P(d)&=100\times1.15^{d-1} &&\text{单卡容量}\\
+C(d)&=2\times1.10^{d-1} &&\text{每点能力的日志成本}\\
+v_i&\ge0,\quad \sum_{i=1}^{5}v_i\le P(d) &&\text{队伍总容量为各卡容量之和}
+\end{align*}
+\textbf{日志侧写入上限：}
+\[
+q=\min\left(\left\lfloor\frac{\mathrm{LOG}_{\rm available}}{C(d)}\right\rfloor,
+\left\lfloor P(d)-\sum_i v_i\right\rfloor\right).
+\]
+分配比例之和为 1，取整余量补到最后一维，确保总写入不超出 $q$。算力作为另一执行门槛；下表\textbf{仅估算日志等待}，未包含算力恢复、失败或重复训练。
+
+\subsection{产率、离线封顶与等待时间}
+每 5 级为一档：$t=\lceil d/5\rceil$。规划产率 $L(t)=2400\times2^{t-1}$ LOG/h，离线收益 $R=L(t)\min(h,8)$。真正跨会话结算需持久化时间戳；\textbf{现有原型是固定 400 LOG/h 的页面内时间累计}。
+
+假设上一级容量已填满，本级只补新增容量；除初始赠送外无库存、任务奖励或其他来源：
+\[
+\Delta P(1)=P(1),\quad\Delta P(d)=P(d)-P(d-1)\ (d>1),\qquad M(d)=\Delta P(d)C(d),
+\]
+\[
+G(1)=400,\quad G(d)=0\ (d>1),\qquad T(d)=\frac{\max(0,M(d)-G(d))}{L(t)/60}\ \text{分钟}.
+\]
+\begin{center}
+\begin{tabular}{rrrr}\toprule
+深度 $d$ & 容量 $P$（四舍五入） & 日志产率（LOG/h） & 新容量等待（分钟）\\\midrule
+1 & 100 & 2400 & 0.00\\
+5 & 175 & 2400 & 1.67\\
+6 & 201 & 4800 & 1.06\\
+10 & 352 & 4800 & 2.70\\
+15 & 708 & 9600 & 4.38\\
+25 & 2863 & 38400 & 11.49\\
+26 & 3292 & 76800 & 7.27\\
+30 & 5758 & 76800 & 18.61\\\bottomrule
+\end{tabular}
+\end{center}
+\note{计算使用未取整的 $P$，表中容量只作展示。初始赠送是本模型假设，不代表当前原型的初始资源；等待时间是数学估算，不是玩家实测。}
+
+$d>1$ 时，新增容量成本逐级增长约 $1.15\times1.10=1.265$；产率每 5 级翻倍，等效逐级增长为 $2^{1/5}\approx1.149$，\textbf{不是 1.20}。因此档内等待逐步拉长，换档后回落；若测试发现过长卡点，优先调整产率、档位或奖励，保留可解释的配方选择。
+
+\subsection{策略约束：待联调的扩展规则}
+\begin{itemize}
+\item 单维投入超过 $50\%P$ 可触发固化：本维效果 $+20\%$，被克时整体效果 $\times0.85$；达到 $60\%$ 定义为纯特化。
+\item 指定 Boss 要求某维至少达到队伍总容量的 $12\%$，否则伤害 $\times0.5$；界面提前提示门槛，失败报告说明缺口。
+\item 以上是候选规则而非原型已完整实现内容；门槛、克制与加成必须联调，避免出现只有一种配方可用的硬锁。
+\end{itemize}
+
+\newpage
+\section{战斗校验与验收方法}
+完整方案采用可解释的基准标定：$\mathrm{DPS}_{\rm std}=0.8NP(d)$，敌方生命 $\mathrm{HP}=\mathrm{DPS}_{\rm std}\tau$；$N$ 为队伍卡牌数，普通战斗 $\tau=10$ 秒，Boss $\tau=30$ 秒。\textbf{这是规划基准，不是对当前模拟器的逐项复现。}
+
+\begin{tabularx}{\linewidth}{@{}lYY@{}}\toprule
+验证项 & 操作 & 记录／判断\\\midrule
+成长节奏 & 深度 1--10，按同一资源前提补满容量 & 日志成本、容量、等待；若与模型偏差超过 15\%，定位奖励、取整或恢复来源\\
+配方价值 & 同深度、同总量、同指令，对比三组配比 & 通关、存活时长、有效伤害，确认不是单一维度碾压\\
+失败可解释 & 构造输出不足、承伤不足、覆盖缺口 & 报告能否给出对应的配方建议\\
+边界与安全 & 满容量、资源不足、未应用候选、重复领奖 & 无负资源、无越界写入，候选生成不替换当前协议\\\bottomrule
+\end{tabularx}
+\note{以上是下一轮验收目标；未声称已取得玩家留存、成功率或这些实测成绩。仓库现有 Node 测试包含契约检查和部分运行时断言，不等于完整端到端验证。}
+
+\section{现有作品与设计边界}
+\begin{tabularx}{\linewidth}{@{}lY@{}}\toprule
+状态 & 内容\\\midrule
+已实现 & 单页 HTML/CSS/JavaScript；三人自动战斗、特效与战报；三路日志配比；训练配置及收益预览；候选生成与手动应用；失败评估；任务手动领奖；蓝图 JSON 导出。\\
+原型简化 & 三人共享能力向量，固定基模展示；手动选择深度 1--15；固定日志产率；当前会话内存状态。\\
+未实现 & 存档与跨会话离线结算；逐卡养成与自由编队；完整地图解锁、抽取与蓝图导入；真实 AI 训练或推理。\\\bottomrule
+\end{tabularx}
+
+\subsection{优先级与个人贡献说明}
+\begin{enumerate}
+\item \textbf{先补完整闭环：}保存状态与时间戳，校验离线结算及 8 小时封顶，再改成通关解锁。
+\item \textbf{再验证卡牌策略：}从共享向量升级为逐卡养成，在少量关卡中验证配比和阵容差异。
+\item \textbf{最后扩充内容：}增加卡牌与敌方机制；现阶段不先做支付、账号服务或大量美术资产。
+\end{enumerate}
+本人在项目中提出视觉简化、竖屏布局及仓库交付需求，并通过自然语言与 AI 编程助手协作迭代。代码、界面、测试和本材料均含 AI 辅助；不将 AI 生成部分表述为全部独立手写。更具体的独立设计或实测贡献，应以本人实际记录补充。详见配套作品说明。
+
+\section{作品入口与演示}
+\textbf{仓库：}\url{https://github.com/fbz321/Arc-Protocol}\\
+\textbf{下载试玩：}\url{https://github.com/fbz321/Arc-Protocol/releases/tag/v0.1.0}
+
+在 Release 页面下载 \texttt{Arc-Protocol-v0.1.0.zip}，解压后用浏览器打开 \texttt{index.html}。不需依赖安装或 API Key；\textbf{这是下载试玩入口，不是在线托管站点}。建议演示“战斗观察—训练预览—生成候选—仓库应用—回看战报”，突出生成与应用的区别。
+
+\note{本地配套文件：\texttt{vibe-coding-showcase.md}，含可提交简介、分工说明与约两分钟演示脚本。原型刷新或关闭页面会重置进度；蓝图导出不等于存档。}
+\end{document}

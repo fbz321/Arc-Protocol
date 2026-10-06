@@ -77,6 +77,14 @@ node --test tests/*.test.mjs
 
 现有测试包含界面契约检查及部分运行时断言，但不是完整的浏览器端到端测试。布局或交互变更后仍需在浏览器中检查手机和桌面视口。
 
+## 策划与作品提交材料
+
+- [放置数值卡牌简短策划案（TeX）](docs/portfolio/arc-protocol-plan.tex) · [PDF 预览](docs/portfolio/arc-protocol-plan.pdf)
+- [Vibe Coding 作品说明](docs/portfolio/vibe-coding-showcase.md)：试玩链接、本人 / AI 分工及约两分钟演示脚本。
+- [材料使用与编译说明](docs/portfolio/README.md)
+
+材料明确区分当前原型与待验证设计；个人贡献请按实际参与情况确认。
+
 ## 仓库结构
 
 ```text
@@ -86,6 +94,7 @@ node --test tests/*.test.mjs
 ├── CHANGELOG.md             # 版本更新记录
 ├── demo.md                  # 完整游戏策划案
 ├── tests/                   # Node.js 回归测试
+├── docs/portfolio/          # TeX/PDF 简短策划案与作品说明
 ├── docs/releases/           # 各版本发布说明
 ├── docs/superpowers/        # 功能设计与实施计划
 ├── 数值框架.xlsx             # 数值设计资料
